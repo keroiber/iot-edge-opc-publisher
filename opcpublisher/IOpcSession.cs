@@ -150,7 +150,7 @@ namespace OpcPublisher
         /// Adds a node to be monitored. If there is no subscription with the requested publishing interval,
         /// one is created.
         /// </summary>
-        Task<HttpStatusCode> AddNodeForMonitoringAsync(NodeId nodeId, ExpandedNodeId expandedNodeId,
+        Task<HttpStatusCode> AddNodeForMonitoringAsync(NodeId nodeId, ExpandedNodeId expandedNodeId, string publishId,
             int? opcPublishingInterval, int? opcSamplingInterval, string displayName,
             int? heartbeatInterval, bool? skipFirst, CancellationToken ct);
 

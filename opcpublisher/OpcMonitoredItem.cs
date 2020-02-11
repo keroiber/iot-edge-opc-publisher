@@ -233,6 +233,11 @@ namespace OpcPublisher
         public string OriginalId { get; set; }
 
         /// <summary>
+        /// The node id that is used for publishing.
+        /// </summary>
+        public string PublishId { get; set; }
+
+        /// <summary>
         /// Identifies the configuration type of the node.
         /// </summary>
         public OpcMonitoredItemConfigurationType ConfigType { get; set; }
@@ -268,12 +273,13 @@ namespace OpcPublisher
         /// <summary>
         /// Ctor using NodeId (ns syntax for namespace).
         /// </summary>
-        public OpcMonitoredItem(NodeId nodeId, string sessionEndpointUrl, int? samplingInterval,
+        public OpcMonitoredItem(NodeId nodeId, string publishId, string sessionEndpointUrl, int? samplingInterval,
             string displayName, int? heartbeatInterval, bool? skipFirst)
         {
             ConfigNodeId = nodeId;
             ConfigExpandedNodeId = null;
             OriginalId = nodeId.ToString();
+            PublishId = publishId;
             ConfigType = OpcMonitoredItemConfigurationType.NodeId;
             Init(sessionEndpointUrl, samplingInterval, displayName, heartbeatInterval, skipFirst);
             State = OpcMonitoredItemState.Unmonitored;
@@ -282,12 +288,13 @@ namespace OpcPublisher
         /// <summary>
         /// Ctor using ExpandedNodeId ("nsu=") syntax.
         /// </summary>
-        public OpcMonitoredItem(ExpandedNodeId expandedNodeId, string sessionEndpointUrl, int? samplingInterval,
+        public OpcMonitoredItem(ExpandedNodeId expandedNodeId, string publishId, string sessionEndpointUrl, int? samplingInterval,
             string displayName, int? heartbeatInterval, bool? skipFirst)
         {
             ConfigNodeId = null;
             ConfigExpandedNodeId = expandedNodeId;
             OriginalId = expandedNodeId.ToString();
+            PublishId = publishId;
             ConfigType = OpcMonitoredItemConfigurationType.ExpandedNodeId;
             Init(sessionEndpointUrl, samplingInterval, displayName, heartbeatInterval, skipFirst);
             State = OpcMonitoredItemState.UnmonitoredNamespaceUpdateRequested;
@@ -441,7 +448,7 @@ namespace OpcPublisher
                     }
                     if (telemetryConfiguration.NodeId.Publish == true)
                     {
-                        messageData.NodeId = OriginalId;
+                        messageData.NodeId = PublishId != null? PublishId: OriginalId;
                     }
                     if (telemetryConfiguration.MonitoredItem.ApplicationUri.Publish == true)
                     {

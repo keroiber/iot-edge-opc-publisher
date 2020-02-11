@@ -392,7 +392,7 @@ namespace OpcPublisher
                                 {
                                     // add the node info to the subscription with the default publishing interval, execute syncronously
                                     Logger.Debug($"{logPrefix} Request to monitor item with NodeId '{node.Id}' (PublishingInterval: {node.OpcPublishingInterval.ToString() ?? "--"}, SamplingInterval: {node.OpcSamplingInterval.ToString() ?? "--"})");
-                                    nodeStatusCode = await opcSession.AddNodeForMonitoringAsync(nodeId, null,
+                                    nodeStatusCode = await opcSession.AddNodeForMonitoringAsync(nodeId, null, node.PublishId,
                                         node.OpcPublishingInterval, node.OpcSamplingInterval, node.DisplayName,
                                         node.HeartbeatInterval, node.SkipFirst,
                                         ShutdownTokenSource.Token).ConfigureAwait(false);
@@ -401,7 +401,7 @@ namespace OpcPublisher
                                 {
                                     // add the node info to the subscription with the default publishing interval, execute syncronously
                                     Logger.Debug($"{logPrefix} Request to monitor item with ExpandedNodeId '{node.Id}' (PublishingInterval: {node.OpcPublishingInterval.ToString() ?? "--"}, SamplingInterval: {node.OpcSamplingInterval.ToString() ?? "--"})");
-                                    nodeStatusCode = await opcSession.AddNodeForMonitoringAsync(null, expandedNodeId,
+                                    nodeStatusCode = await opcSession.AddNodeForMonitoringAsync(null, expandedNodeId, node.PublishId,
                                         node.OpcPublishingInterval, node.OpcSamplingInterval, node.DisplayName,
                                         node.HeartbeatInterval, node.SkipFirst,
                                         ShutdownTokenSource.Token).ConfigureAwait(false);

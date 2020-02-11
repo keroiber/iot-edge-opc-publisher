@@ -976,7 +976,7 @@ namespace OpcPublisher
         /// Adds a node to be monitored. If there is no subscription with the requested publishing interval,
         /// one is created.
         /// </summary>
-        public async Task<HttpStatusCode> AddNodeForMonitoringAsync(NodeId nodeId, ExpandedNodeId expandedNodeId,
+        public async Task<HttpStatusCode> AddNodeForMonitoringAsync(NodeId nodeId, ExpandedNodeId expandedNodeId, string publishId,
             int? opcPublishingInterval, int? opcSamplingInterval, string displayName,
             int? heartbeatInterval, bool? skipFirst, CancellationToken ct)
         {
@@ -1035,11 +1035,11 @@ namespace OpcPublisher
                     // add a new item to monitor
                     if (expandedNodeId == null)
                     {
-                        opcMonitoredItem = new OpcMonitoredItem(nodeId, EndpointUrl, opcSamplingInterval, displayName, heartbeatInterval, skipFirst);
+                        opcMonitoredItem = new OpcMonitoredItem(nodeId, publishId, EndpointUrl, opcSamplingInterval, displayName, heartbeatInterval, skipFirst);
                     }
                     else
                     {
-                        opcMonitoredItem = new OpcMonitoredItem(expandedNodeId, EndpointUrl, opcSamplingInterval, displayName, heartbeatInterval, skipFirst);
+                        opcMonitoredItem = new OpcMonitoredItem(expandedNodeId, publishId, EndpointUrl, opcSamplingInterval, displayName, heartbeatInterval, skipFirst);
                     }
                     opcSubscription.OpcMonitoredItems.Add(opcMonitoredItem);
                     Interlocked.Increment(ref NodeConfigVersion);

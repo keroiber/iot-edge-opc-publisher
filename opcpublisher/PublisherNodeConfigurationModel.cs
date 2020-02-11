@@ -17,10 +17,11 @@ namespace OpcPublisher
     /// </summary>
     public class OpcNodeOnEndpointModel
     {
-        public OpcNodeOnEndpointModel(string id, string expandedNodeId = null, int? opcSamplingInterval = null, int? opcPublishingInterval = null,
+        public OpcNodeOnEndpointModel(string id, string expandedNodeId = null, string publishId = null, int? opcSamplingInterval = null, int? opcPublishingInterval = null,
             string displayName = null, int? heartbeatInterval = null, bool? skipFirst = null)
         {
             Id = id;
+            PublishId = publishId;
             ExpandedNodeId = expandedNodeId;
             OpcSamplingInterval = opcSamplingInterval;
             OpcPublishingInterval = opcPublishingInterval;
@@ -33,6 +34,9 @@ namespace OpcPublisher
         // a NodeId ("ns=")
         // an ExpandedNodeId ("nsu=")
         public string Id { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string PublishId { get; set; }
 
         // support legacy configuration file syntax
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
@@ -163,6 +167,11 @@ namespace OpcPublisher
         public string OriginalId { get; set; }
 
         /// <summary>
+        /// The node id that is used for publishing.
+        /// </summary>
+        public string PublishId { get; set; }
+
+        /// <summary>
         /// The display name to use for the node in telemetry events.
         /// </summary>
         public string DisplayName { get; set; }
@@ -200,7 +209,7 @@ namespace OpcPublisher
         /// <summary>
         /// Ctor of the object.
         /// </summary>
-        public NodePublishingConfigurationModel(ExpandedNodeId expandedNodeId, string originalId, string endpointUrl, bool? useSecurity,
+        public NodePublishingConfigurationModel(ExpandedNodeId expandedNodeId, string originalId, string endpointUrl, string publishId, bool? useSecurity,
                     int? opcPublishingInterval, int? opcSamplingInterval, string displayName, int? heartbeatInterval, bool? skipFirst, OpcAuthenticationMode opcAuthenticationMode, EncryptedNetworkCredential encryptedAuthCredential)
 
         {
@@ -208,6 +217,7 @@ namespace OpcPublisher
             ExpandedNodeId = expandedNodeId;
             OriginalId = originalId;
             EndpointUrl = endpointUrl;
+            PublishId = publishId;
             UseSecurity = useSecurity ?? true;
             DisplayName = displayName;
             OpcSamplingInterval = opcSamplingInterval;
@@ -221,13 +231,14 @@ namespace OpcPublisher
         /// <summary>
         /// Ctor of the object.
         /// </summary>
-        public NodePublishingConfigurationModel(NodeId nodeId, string originalId, string endpointUrl, bool? useSecurity,
+        public NodePublishingConfigurationModel(NodeId nodeId, string originalId, string endpointUrl, string publishId, bool? useSecurity,
                     int? opcPublishingInterval, int? opcSamplingInterval, string displayName, int? heartbeatInterval, bool? skipFirst, OpcAuthenticationMode opcAuthenticationMode, EncryptedNetworkCredential encryptedAuthCredential)
         {
             NodeId = nodeId;
             ExpandedNodeId = null;
             OriginalId = originalId;
             EndpointUrl = endpointUrl;
+            PublishId = publishId;
             UseSecurity = useSecurity ?? true;
             DisplayName = displayName;
             OpcSamplingInterval = opcSamplingInterval;
