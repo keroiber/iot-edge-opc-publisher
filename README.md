@@ -53,7 +53,8 @@ An example for the format of the configuration file is:
                 "Id": "i=2258",
                 "OpcSamplingInterval": 2000,
                 "OpcPublishingInterval": 5000,
-                "DisplayName": "Current time"
+                "DisplayName": "Current time",
+                "PublishId": "nsu=http://some.company.com;s=Some.alias.name.that.is.used.for.publishing"
               }
             ]
           }
